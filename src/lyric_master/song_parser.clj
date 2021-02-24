@@ -1,16 +1,7 @@
 (ns lyric-master.song-parser
   (require [clojure.string :as str]))
 
-(def parsed-row-names [:title :artist])
-
-(defn- parsed-row-regex [row-name]
-  (let [row-name-str (-> row-name name str/upper-case)]
-    (re-pattern (str row-name-str ".*[\n]"))))
-
 (def new-song-regex #"NEW SONG")
-
-(def parsed-regexes (map parsed-row-regex parsed-row-names))
-
 (def round-bracket-regex #"\(.*\)")
 (def square-bracket-regex #"\[.*\]")
 (def quoted-text-regex #"\".*\"")
@@ -18,21 +9,28 @@
 (def whitespace-regex #"\s")
 (def removed-special-chars-regex #"[,|?|!]")
 
+(def parsed-row-names [:title :artist])
+
+(defn- ->parsed-row-regex [row-name]
+  (let [row-name-str (-> row-name name str/upper-case)]
+    (re-pattern (str row-name-str ".*[\n]"))))
+
+(def parsed-row-regexes (map ->parsed-row-regex parsed-row-names))
+
 (defn- remove-from-str [str regex]
   (str/replace str regex ""))
 
 (defn- get-row [row song]
   (->> song
-       (re-find (parsed-row-regex row))
+       (re-find (->parsed-row-regex row))
        (re-find quoted-text-regex)
        (re-find plain-text-with-spaces-regex)))
 
 (def remove-parsed-rows
   (apply comp
-    (map
-      (fn [regex]
-        #(remove-from-str % regex))
-      parsed-regexes)))
+         (map
+           (fn [regex] #(remove-from-str % regex))
+           parsed-row-regexes)))
 
 
 (defn- remove-non-lyrics [s]
@@ -55,8 +53,8 @@
 
 (defn- extract-song-strings [song-file-str]
   (let [raw-songs (str/split song-file-str new-song-regex)
-        ham-songs (remove str/blank? raw-songs)]
-    ham-songs))
+        non-empty-songs (remove str/blank? raw-songs)]
+    non-empty-songs))
 
 (defn parse-song-file-str [song-file-str]
   (->> song-file-str
