@@ -1,6 +1,10 @@
-(ns lyric-master.core)
+(ns lyric-master.core
+  (require [lyric-master.file-reader :as io]
+           [lyric-master.song-parser :as parser]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(def eminem-lyric-file-name "eminem-song-lyrics.txt")
+
+(defn start [& args]
+  (let [song-str (io/file->str eminem-lyric-file-name)
+        parsed-songs (parser/parse-song-file-str song-str)]
+    parsed-songs))
