@@ -7,7 +7,7 @@
 (def quoted-text-regex #"\".*\"")
 (def plain-text-with-spaces-regex #"[a-z|A-Z|\s]+")
 (def whitespace-regex #"\s")
-(def removed-special-chars-regex #"[,|?|!]")
+(def removed-special-chars-regex #"[,|?|!|\"]")
 
 (def parsed-row-names [:title :artist])
 
@@ -47,9 +47,10 @@
      :artist (get-row "ARTIST" s)
      :song {:lyrics lyrics
             :bars (str/split-lines lyrics)
-            :words (-> lyrics
-                       (remove-from-str removed-special-chars-regex)
-                       (str/split whitespace-regex))}}))
+            :words (remove str/blank?
+                           (-> lyrics
+                               (remove-from-str removed-special-chars-regex)
+                               (str/split whitespace-regex)))}}))
 
 (defn- extract-song-strings [song-file-str]
   (let [raw-songs (str/split song-file-str new-song-regex)
