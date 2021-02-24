@@ -18,7 +18,7 @@ Parses songs from `.txt` files in `/resources` folder which is found at project 
 
 Songs are parsed with the following rules:
 
-- `NEW SONG "title"` starts a new song with give title.
+- `NEW SONG "title"` starts a new song with give `"title"`. `"title"` is optional but must be inside brackets
 - Words within brackets `()` & `[]` are ignored (background noise or info).
 - Each new line starts a new "bar". 
     - A bar means roughly "one line in a poem (or song)"
