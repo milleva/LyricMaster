@@ -1,5 +1,5 @@
 (ns lyric-master.song-parser
-  (require [clojure.string :as str]))
+  (:require [clojure.string :as str]))
 
 (def new-song-regex #"NEW SONG")
 (def round-bracket-regex #"\(.*\)")
@@ -57,7 +57,7 @@
         non-empty-songs (remove str/blank? raw-songs)]
     non-empty-songs))
 
-(defn parse-song-file-str [song-file-str]
+(defn parse-song-dsl-string [song-file-str]
   (->> song-file-str
       extract-song-strings
       (map parse-song)))
