@@ -1,43 +1,57 @@
 (ns lyric-master.song-parser
   (require [clojure.string :as str]))
 
+(def parsed-row-names [:title :artist])
+
+(defn- parsed-row-regex [row-name]
+  (let [row-name-str (-> row-name name str/upper-case)]
+    (re-pattern (str row-name-str ".*[\n]"))))
+
 (def new-song-regex #"NEW SONG")
-(def title-line-regex #"TITLE.*[\n]")
+
+(def parsed-regexes (map parsed-row-regex parsed-row-names))
+
 (def round-bracket-regex #"\(.*\)")
 (def square-bracket-regex #"\[.*\]")
 (def quoted-text-regex #"\".*\"")
 (def plain-text-with-spaces-regex #"[a-z|A-Z|\s]+")
+(def whitespace-regex #"\s")
+(def removed-special-chars-regex #"[,|?|!]")
 
-(defn- remove-from-str [regex str]
+(defn- remove-from-str [str regex]
   (str/replace str regex ""))
 
-(defn- find-artist [song]
+(defn- get-row [row song]
   (->> song
-       (re-find square-bracket-regex)
-       (re-find plain-text-with-spaces-regex)))
-
-(defn- find-title [song]
-  (->> song
-       (re-find title-line-regex)
+       (re-find (parsed-row-regex row))
        (re-find quoted-text-regex)
        (re-find plain-text-with-spaces-regex)))
 
-(defn parse-song [s]
-  (let [remove-round-brackets (partial remove-from-str round-bracket-regex)
-        remove-square-brackets (partial remove-from-str square-bracket-regex)
-        remove-title-line (partial remove-from-str title-line-regex)
+(def remove-parsed-rows
+  (apply comp
+    (map
+      (fn [regex]
+        #(remove-from-str % regex))
+      parsed-regexes)))
 
-        title (find-title s)
-        artist (find-artist s)
-        lyrics (-> s
-                   str/trim
-                   remove-round-brackets
-                   remove-square-brackets
-                   remove-title-line
-                   str/trim)]
-    {:title title
-     :artist artist
-     :lyrics lyrics}))
+
+(defn- remove-non-lyrics [s]
+  (-> s
+      str/trim
+      remove-parsed-rows
+      (remove-from-str round-bracket-regex)
+      (remove-from-str square-bracket-regex)
+      str/trim))
+
+(defn parse-song [s]
+  (let [lyrics (remove-non-lyrics s)]
+    {:title (get-row "TITLE" s)
+     :artist (get-row "ARTIST" s)
+     :song {:lyrics lyrics
+            :bars (str/split-lines lyrics)
+            :words (-> lyrics
+                       (remove-from-str removed-special-chars-regex)
+                       (str/split whitespace-regex))}}))
 
 (defn- extract-song-strings [song-file-str]
   (let [raw-songs (str/split song-file-str new-song-regex)

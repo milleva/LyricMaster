@@ -18,7 +18,9 @@ Parses songs from `.txt` files in `/resources` folder which is found at project 
 
 Songs are parsed with the following rules:
 
-- `NEW SONG "title"` starts a new song with give `"title"`. `"title"` is optional but must be inside brackets
+- `NEW SONG starts a new song
+- `TITLE "title"` sets title. optional but `"title"` must be inside quotes
+- `ARTIST "artist"` sets artist. optional but must be inside quotes
 - Words within brackets `()` & `[]` are ignored (background noise or info).
 - Each new line starts a new "bar". 
     - A bar means roughly "one line in a poem (or song)"
@@ -26,16 +28,18 @@ Songs are parsed with the following rules:
 
 example.txt 
 ````
-NEW SONG "My Name Is"
+TITLE "My Name Is"
+ARTIST "Eminem"
 
-[Eminem & Dr. Dre:]
 Hi, kids, do you like violence? (Yeah, yeah, yeah)
 Wanna see me stick Nine Inch Nails through each one of my eyelids? (Uh-huh)  
 
 (...)
 
 
-NEW SONG "Guilty Conscience" (feat. Dr. Dre)
+NEW SONG 
+
+TITLE "Guilty Conscience"
          
 Alright, stop (Huh?)
 Now before you walk in the door of this liquor store

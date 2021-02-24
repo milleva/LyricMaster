@@ -1,8 +1,8 @@
 NEW SONG
 
 TITLE "My Name Is"
+ARTIST "Eminem"
 
-[Eminem & Dr. Dre:]
 Hi, kids, do you like violence? (Yeah, yeah, yeah)
 Wanna see me stick Nine Inch Nails through each one of my eyelids? (Uh-huh)
 Wanna copy me and do exactly like I did? (Yeah, yeah)
@@ -61,8 +61,7 @@ Tell him that I slit his throat in this dream I had
 NEW SONG
 
 TITLE "Guilty Conscience"
-
-[feat. Dr. Dre]
+ARTIST "EMINEM"
 
 Alright, stop (Huh?)
 Now before you walk in the door of this liquor store
