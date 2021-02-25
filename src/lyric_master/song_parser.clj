@@ -51,6 +51,7 @@
             :words (remove str/blank?
                            (-> lyrics
                                (remove-from-str removed-special-chars-regex)
+                               str/lower-case
                                (str/split whitespace-regex)))}}))
 
 (defn- extract-song-strings [song-file-str]
