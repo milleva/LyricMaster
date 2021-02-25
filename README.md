@@ -24,7 +24,7 @@ Parses songs from `.txt` files in `/resources` folder which is found at project 
 
 Songs are parsed with the following rules:
 
-- `NEW SONG starts a new song
+- `NEW SONG` starts a new song
 - Optional domain specific commands exist to define certain parameters.
     - usage: `COMMAND "parameter"`
     - E.g. `TITLE "title"` sets title. `"title"` must be inside quotes.
