@@ -2,11 +2,6 @@
   (:require [lyric-master.api.datamuse-api :as datamuse]
             [lyric-master.api.rhymebrain-api :as rhymebrain]))
 
-(defn get-all-rhyming-words-from-apis [w]
-  (map :word (concat
-               (rhymebrain/get-rhymes w)
-               (datamuse/get-rhymes w))))
-
 (defn api-rhyme? [w1 w2 api-get]
   (let [get-rhyming-words #(->> %
                                 api-get
