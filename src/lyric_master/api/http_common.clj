@@ -19,12 +19,19 @@
   (<= 200 status 299))
 
 (defn- get-req [url]
-  (let [{:keys [status body] :as response} (client/get url)]
-    (if (status-ok? status)
-      (-> body
-          json/read-str
-          w/keywordize-keys)
-      (println (str "Request to " url "failed with response:\n" response)))))
+  (try
+    (let [{:keys [status body] :as response} (client/get url)]
+      (println (str "http GET - " url))
+      (if (status-ok? status)
+        (-> body
+            json/read-str
+            w/keywordize-keys)
+        (do
+          (println (str "Request to " url "received bad status code:\n" response))
+          {})))
+    (catch Exception e
+      (println (str "Request to " url "failed: " e))
+      {})))
 
 (defn get-cached [word url cache-type client-name]
   (let [cache-key (keyword word)
