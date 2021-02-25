@@ -2,9 +2,9 @@
   (:require [lyric-master.api.datamuse-api :as datamuse]
             [lyric-master.api.rhymebrain-api :as rhymebrain]))
 
-(defn api-rhyme? [w1 w2 api-get]
+(defn api-rhyme? [w1 w2 api-get-fn]
   (let [get-rhymes #(->> %
-                         api-get
+                         api-get-fn
                          (map :word))
         w1-rhymes (get-rhymes w1)
         w2-rhymes (get-rhymes w2)]
@@ -26,9 +26,9 @@
   (and
     (not= w1 w2)
     (or
+      (custom-rhyme-detected? w1 w2)
       (datamuse-rhyme? w1 w2)
-      (rhymebrain-rhyme? w1 w2)
-      (custom-rhyme-detected? w1 w2))))
+      (rhymebrain-rhyme? w1 w2))))
 
 (defn- has-rhyme-in-coll? [word compared-words]
   (boolean (seq
