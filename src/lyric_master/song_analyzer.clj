@@ -6,9 +6,11 @@
        count))
 
 (defn analyze-song-lyrics [{:keys [words bars]}]
-  (let [words-sorted (sort words)]
+  (let [words-sorted (sort words)
+        words-distinct (distinct words-sorted)]
     {:bar-count (count bars)
      :word-count (count words)
+     :distinct-word-count (count words-distinct)
      :word-usage-amounts (into (sorted-map)
                                (group-by (partial word-used-times words-sorted)
-                                         (distinct words-sorted)))}))         ;make this unique
+                                         words-distinct))}))         ;make this unique

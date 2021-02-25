@@ -20,11 +20,12 @@
 (defn- remove-from-str [str regex]
   (str/replace str regex ""))
 
-(defn- get-row [row song]
-  (->> song
-       (re-find (->parsed-row-regex row))
-       (re-find quoted-text-regex)
-       (re-find plain-text-with-spaces-regex)))
+(defn- get-row-value [row song]
+  (let [found-row (re-find (->parsed-row-regex row) song)]
+    (when (some? found-row)
+      (->> found-row
+           (re-find quoted-text-regex)
+           (re-find plain-text-with-spaces-regex)))))
 
 (def remove-parsed-rows
   (apply comp
@@ -43,8 +44,8 @@
 
 (defn parse-song [s]
   (let [lyrics (remove-non-lyrics s)]
-    {:title (get-row "TITLE" s)
-     :artist (get-row "ARTIST" s)
+    {:title (get-row-value :title s)
+     :artist (get-row-value :artist s)
      :song {:lyrics lyrics
             :bars (str/split-lines lyrics)
             :words (remove str/blank?
