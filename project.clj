@@ -8,9 +8,33 @@
                  [clj-http "3.12.0"]
                  [metosin/reitit "0.5.12"]
                  [javax.servlet/servlet-api "2.5"]
-                 [ring "1.6.3"]])
+                 [ring "1.6.3"]
+                 [reagent "1.0.0"]
 
-(comment
-  "If you are using the ring/ring-core namespace on its own, you may run into errors when executing tests or running alternative adapters. To resolve this, include the following dependency in your dev profile:\n\n
+                 [org.clojure/clojurescript "1.10.312"]]
 
-  ")
+  :plugins [[lein-cljsbuild "1.1.4"
+             :exclusions [org.clojure/clojure]]
+            [lein-figwheel "0.5.20"]]
+
+  :clean-targets ^{:protect false} ["resources/public/js/out"
+                                    "resources/public/js/lyric_frontend.js"
+                                    :target-path]
+
+  :source-paths ["src"]
+
+  :cljsbuild {
+              :builds [{:id "lyric-frontend"
+                        :source-paths ["src"]
+                        :figwheel true
+                        :compiler {
+                                   :main lyric-frontend.core
+                                   :asset-path "js/out"
+                                   :output-to "resources/public/js/lyric_frontend.js"
+                                   :output-dir "resources/public/js/out"
+                                   :source-map-timestamp true}}]}
+
+  :figwheel { :css-dirs ["resources/public/css"]
+             :open-file-command "emacsclient"
+             })
+
