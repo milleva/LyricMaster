@@ -2,6 +2,11 @@
 
 A Clojure application designed to help songwriters improve their lyrics through data analysis of successful songs:
 
+### Prerequisites
+
+- Java 12.0.1
+- Leiningen 2.8.1
+
 ## Usage
 
 Original design is for hip hop lyric analysis
@@ -11,6 +16,7 @@ Original design is for hip hop lyric analysis
 Planned initial features
 - matching rhymes
 - counting bars
+- counting word frequencies
 
 ### Parsing text files
 
@@ -19,10 +25,12 @@ Parses songs from `.txt` files in `/resources` folder which is found at project 
 Songs are parsed with the following rules:
 
 - `NEW SONG starts a new song
-- `TITLE "title"` sets title. optional but `"title"` must be inside quotes
-- `ARTIST "artist"` sets artist. optional but must be inside quotes
+- Optional domain specific commands exist to define certain parameters.
+    - usage: `COMMAND "parameter"`
+    - E.g. `TITLE "title"` sets title. `"title"` must be inside quotes.
+    - Available commands: `ARTIST, TITLE`
 - Words within brackets `()` & `[]` are ignored (background noise or info).
-- Each new line starts a new "bar". 
+- Each new line starts a new bar. 
     - A bar means roughly "one line in a poem (or song)"
 
 
@@ -48,11 +56,6 @@ And try to get money out the drawer
 (...)
 
 ````
-
-### Prerequisites
-
-- Java 12.0.1
-- Leiningen 2.8.1
 
 ## License
 
