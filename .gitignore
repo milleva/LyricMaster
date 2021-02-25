@@ -11,3 +11,17 @@ pom.xml.asc
 .hg/
 .idea/
 lyric-master.iml
+
+/lyrics-frontend/resources/public/js/compiled/**
+lyrics-frontend/figwheel_server.log
+lyrics-frontend/pom.xml
+lyrics-frontend/*jar
+/lyrics-frontend/lib/
+/lyrics-frontend/classes/
+/lyrics-frontend/out/
+/lyrics-frontend/target/
+lyrics-frontend/.lein-deps-sum
+lyrics-frontend/.lein-repl-history
+lyrics-frontend/.lein-plugins/
+lyrics-frontend/.repl
+lyrics-frontend/.nrepl-port

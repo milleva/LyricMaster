@@ -1,5 +1,5 @@
 (ns lyric-backend.api.rhymebrain-api
-  (:require [lyric-master.api.http-common :refer :all]))
+  (:require [lyric-backend.api.http-common :refer :all]))
 
 ;//{:rhymes [{:word {res-object}}...] :infos [{:word {res-object}}]}
 (def cache-key :rhymebrain)

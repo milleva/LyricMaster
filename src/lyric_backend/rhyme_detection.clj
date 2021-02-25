@@ -1,6 +1,6 @@
 (ns lyric-backend.rhyme-detection
-  (:require [lyric-master.api.datamuse-api :as datamuse]
-            [lyric-master.api.rhymebrain-api :as rhymebrain]))
+  (:require [lyric-backend.api.datamuse-api :as datamuse]
+            [lyric-backend.api.rhymebrain-api :as rhymebrain]))
 
 (defn api-rhyme? [w1 w2 api-get-fn]
   (let [get-rhymes #(->> %

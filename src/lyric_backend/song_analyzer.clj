@@ -1,5 +1,5 @@
 (ns lyric-backend.song-analyzer
-  (:require [lyric-master.rhyme-detection :as rhyme]))
+  (:require [lyric-backend.rhyme-detection :as rhyme]))
 
 (defn word-used-times [words word]
   (->> words

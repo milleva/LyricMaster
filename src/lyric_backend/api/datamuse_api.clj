@@ -1,5 +1,5 @@
 (ns lyric-backend.api.datamuse-api
-  (:require [lyric-master.api.http-common :refer :all]))
+  (:require [lyric-backend.api.http-common :refer :all]))
 
 (def ^:private cache-key :datamuse)
 (def ^:private base-url "https://api.datamuse.com/")

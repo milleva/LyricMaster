@@ -1,9 +1,9 @@
 (ns lyric-backend.core
-  (:require [lyric-master.file-reader :as io]
-            [lyric-master.song-parser :as parser]
-            [lyric-master.song-analyzer :as a]
-            [lyric-master.api.datamuse-api :as datamuse]
-            [lyric-master.api.rhymebrain-api :as rhymebrain]))
+  (:require [lyric-backend.file-io :as io]
+            [lyric-backend.song-parser :as parser]
+            [lyric-backend.song-analyzer :as a]
+            [lyric-backend.api.datamuse-api :as datamuse]
+            [lyric-backend.api.rhymebrain-api :as rhymebrain]))
 
 (def eminem-lyric-file-name "eminem-song-lyrics.txt")
 (def evan-lyric-file-name "evan-song-lyrics.txt")
