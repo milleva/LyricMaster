@@ -1,4 +1,4 @@
-(ns lyric-master.song-parser
+(ns lyric-backend.song-parser
   (:require [clojure.string :as str]))
 
 (def new-song-regex #"NEW SONG")

@@ -1,4 +1,4 @@
-(ns lyric-master.api.http-common
+(ns lyric-backend.api.http-common
   (:require [clojure.data.json :as json]
             [clojure.walk :as w]
             [clj-http.client :as client]))

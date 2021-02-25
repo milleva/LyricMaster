@@ -1,4 +1,4 @@
-(ns lyric-master.core
+(ns lyric-backend.core
   (:require [lyric-master.file-reader :as io]
             [lyric-master.song-parser :as parser]
             [lyric-master.song-analyzer :as a]

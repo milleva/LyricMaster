@@ -1,4 +1,4 @@
-(ns lyric-master.core-test
+(ns lyric-backend.core-test
   (:require [clojure.test :refer :all]
             [lyric-master.core :refer :all]))
 

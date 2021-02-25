@@ -1,4 +1,4 @@
-(ns lyric-master.rhyme-detection
+(ns lyric-backend.rhyme-detection
   (:require [lyric-master.api.datamuse-api :as datamuse]
             [lyric-master.api.rhymebrain-api :as rhymebrain]))
 

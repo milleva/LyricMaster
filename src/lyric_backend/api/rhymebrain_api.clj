@@ -1,4 +1,4 @@
-(ns lyric-master.api.rhymebrain-api
+(ns lyric-backend.api.rhymebrain-api
   (:require [lyric-master.api.http-common :refer :all]))
 
 ;//{:rhymes [{:word {res-object}}...] :infos [{:word {res-object}}]}
