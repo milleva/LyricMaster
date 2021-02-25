@@ -6,15 +6,12 @@
             [lyric-master.api.rhymebrain-api :as rhymebrain]))
 
 (def eminem-lyric-file-name "eminem-song-lyrics.txt")
-
-(defn get-all-rhyming-words-from-apis [w]
-  (map :word (concat
-               (rhymebrain/get-rhymes w)
-               (datamuse/get-rhymes w))))
+(def evan-lyric-file-name "evan-song-lyrics.txt")
 
 (defn start [& args]
-  (let [song-str (io/file->str eminem-lyric-file-name)
-        parsed-songs (parser/parse-song-dsl-string song-str)
+  (let [evan-song-str (io/file->str eminem-lyric-file-name)
+        parsed-songs (parser/parse-song-dsl-string evan-song-str)
         song-1 (-> parsed-songs
-                    first)]
-    song-1))
+                    first
+                   :song)]
+    (a/analyze-song-lyrics song-1)))
