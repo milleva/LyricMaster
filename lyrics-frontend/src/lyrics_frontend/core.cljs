@@ -1,5 +1,5 @@
 (ns lyrics-frontend.core
-    (:require 
+    (:require
               [reagent.core :as reagent :refer [atom]]
               [reagent.dom :as rd]))
 
@@ -9,13 +9,17 @@
 
 ;; define your app data so that it doesn't get over-written on reload
 
-(defonce app-state (atom {:text "Hello world!"}))
+(defonce rap-text-box-contents (atom ""))
 
+(defn rap-text-box []
+      (let [write-to-box (fn [str] (reset! rap-text-box-contents str))]
+           [:textarea {:on-change #(reset! rap-text-box-contents (-> % .-target .-value))}]))
 
 (defn hello-world []
   [:div
-   [:h1 (:text @app-state)]
-   [:h3 "Edit this and watch it change!"]])
+   [:h1 (str "Lyrics: " @rap-text-box-contents)]
+   [:h3 "Paste lyrics into this checkbox to analyze them"]
+   [rap-text-box]])
 
 (rd/render [hello-world]
            (. js/document (getElementById "app")))
