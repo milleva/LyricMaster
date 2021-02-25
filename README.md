@@ -20,7 +20,7 @@ Planned initial features
 
 ### Parsing text files
 
-Parses songs from `.txt` files in `/resources` folder which is found at project root.
+Parses songs from `.txt` files in `/resources` folder which is found at project root. Can parse multiple songs from one file.
 
 Songs are parsed with the following rules:
 
