@@ -5,10 +5,14 @@
 
 (def ^:private base-url "http://localhost:3000")
 
-(defn post-song-for-analysis [rap-str]
+(defn post-song-for-analysis [song-str]
   (go (let [url      (str base-url "/analysis")
-            response (<! (http/post url
-                                    {:json-params {:rap rap-str}}))]
-        (js/console.log (:status response))
-        (js/console.log (:body response)))))
+            {:keys [status body]} (<! (http/post url
+                                    {:json-params {:song song-str}}))
+            parsed-body (js->clj (.parse js/JSON body))]
+        (when (< 199 status 300)
+          (println parsed-body)
+          (println (type parsed-body))
+          (println (-> parsed-body (get "word-count")))
+          parsed-body))))
 

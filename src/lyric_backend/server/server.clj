@@ -4,7 +4,9 @@
             [reitit.ring :as ring]
             [jumblerg.middleware.cors :refer [wrap-cors]]
             [ring.util.request :refer [body-string]]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [lyric-backend.song-parser :as song-parser]
+            [lyric-backend.song-analyzer :as song-analyzer]))
 
 (def ^:private service-port 3000)
 
@@ -14,10 +16,15 @@
 
 (defn analysis-handler [request]
   (let [req-body (:body request)
-        rap-text (:rap req-body)]
+        song-str (:song req-body)
+        parsed-song (-> song-str
+                        song-parser/parse-song-dsl-string
+                        first
+                        :song)
+        analyzed-song (song-analyzer/analyze-song-lyrics parsed-song)]
     {:status 201
      :headLers {"Content-Type" "text/plain"}
-     :body (json/write-str rap-text)}))
+     :body (json/write-str analyzed-song)}))
 
 (def main-handler
   (ring/ring-handler

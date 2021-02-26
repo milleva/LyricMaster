@@ -11,9 +11,10 @@
 ;; define your app data so that it doesn't get over-written on reload
 
 (defonce rap-text-box-contents (atom ""))
+(defonce server-analysis (atom ""))
 
 (defn rap-text-box []
-  (let [write-to-box (fn [str] (reset! rap-text-box-contents str))]
+  (let []
     [:textarea {:on-change #(reset! rap-text-box-contents (-> % .-target .-value))
                 :style {:background-color "grey"
                         :corner-radius "5px"
@@ -21,7 +22,8 @@
                         :height "30em"}}]))
 
 (defn app []
-  (let [rap-text @rap-text-box-contents]
+  (let [rap-text @rap-text-box-contents
+        analysis @server-analysis]
     [:div
      [:h1 (str "Lyrics: " (apply str (concat
                                        (take 13 rap-text)
@@ -30,7 +32,8 @@
      [rap-text-box]
      [:h3 "Click to analyze"]
      [:button [:input {:type     "button" :value "Click me!"
-                       :on-click #(api/post-song-for-analysis rap-text)}]]]))
+                       :on-click #(reset! server-analysis (api/post-song-for-analysis rap-text))}]]
+     [:h3 (str "word count:" (js/parseInt analysis))]]))
 
 (rd/render [app]
            (. js/document (getElementById "lyric-frontend")))
