@@ -1,7 +1,8 @@
 (ns lyric-frontend.core
   (:require
     [reagent.core :as reagent :refer [atom]]
-    [reagent.dom :as rd]))
+    [reagent.dom :as rd]
+    [lyric-frontend.api :as api]))
 
 (enable-console-print!)
 
@@ -13,15 +14,25 @@
 
 (defn rap-text-box []
   (let [write-to-box (fn [str] (reset! rap-text-box-contents str))]
-    [:textarea {:on-change #(reset! rap-text-box-contents (-> % .-target .-value))}]))
+    [:textarea {:on-change #(reset! rap-text-box-contents (-> % .-target .-value))
+                :style {:background-color "grey"
+                        :corner-radius "5px"
+                        :width "80vw"
+                        :height "30em"}}]))
 
-(defn hello-world []
-  [:div
-   [:h1 (str "Lyrics: " @rap-text-box-contents)]
-   [:h3 "Paste lyrics into this checkbox to analyze them"]
-   [rap-text-box]])
+(defn app []
+  (let [rap-text @rap-text-box-contents]
+    [:div
+     [:h1 (str "Lyrics: " (apply str (concat
+                                       (take 13 rap-text)
+                                       [(if (> (count rap-text) 0) "..." "")])))]
+     [:h3 "Paste lyrics into this checkbox"]
+     [rap-text-box]
+     [:h3 "Click to analyze"]
+     [:button [:input {:type     "button" :value "Click me!"
+                       :on-click #(api/post-song-for-analysis rap-text)}]]]))
 
-(rd/render [hello-world]
+(rd/render [app]
            (. js/document (getElementById "lyric-frontend")))
 
 (defn on-js-reload []

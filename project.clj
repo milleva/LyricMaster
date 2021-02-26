@@ -8,10 +8,13 @@
                  [clj-http "3.12.0"]
                  [metosin/reitit "0.5.12"]
                  [javax.servlet/servlet-api "2.5"]
-                 [ring "1.6.3"]
+                 [ring "1.9.0"]
+                 [ring/ring-json "0.5.0"]
                  [reagent "1.0.0"]
+                 [jumblerg/ring-cors "2.0.0"]
 
-                 [org.clojure/clojurescript "1.10.312"]]
+                 [org.clojure/clojurescript "1.10.312"]
+                 [cljs-http "0.1.46"]]
 
   :plugins [[lein-cljsbuild "1.1.4"
              :exclusions [org.clojure/clojure]]
