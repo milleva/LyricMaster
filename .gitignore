@@ -17,3 +17,4 @@ resources/public/css
 resources/public/js
 .cpcache/
 figwheel_server.log
+.rebel_readline_history
