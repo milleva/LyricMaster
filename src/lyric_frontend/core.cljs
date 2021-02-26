@@ -3,7 +3,8 @@
   (:require [cljs.core.async :refer [<!]]
             [reagent.core :as r :refer [atom]]
             [reagent.dom :as rd]
-            [lyric-frontend.api :as api]))
+            [lyric-frontend.api :as api]
+            [clojure.string :as str]))
 
 (enable-console-print!)
 
@@ -12,8 +13,8 @@
 ;; define your app data so that it doesn't get over-written on reload
 
 (defonce rap-text-box-contents (atom ""))
-(defonce server-analysis-word-count (atom nil))
-(defonce server-analysis-distinct-word-count (atom nil))
+
+(defonce server-analysis (atom nil))
 
 (defn rap-text-box []
   (let []
@@ -23,22 +24,38 @@
                         :width "80vw"
                         :height "30em"}}]))
 
-(defn- update-server-analysis-results!
-  [{:keys [word-count
-           distinct-word-count]}]
-  (reset! server-analysis-word-count word-count)
-  (reset! server-analysis-distinct-word-count distinct-word-count))
+(defn- update-server-analysis-results! [song-analysis-result]
+  (reset! server-analysis song-analysis-result))
 
 (defn- create-analysis-button-handler [song-str]
   (fn [_]
-    (go
-      (let [server-analysis-results (<! (api/post-song-for-analysis song-str))]
-        (update-server-analysis-results! server-analysis-results)))))
+    (when (seq song-str)
+      (go
+        (let [server-analysis-results (<! (api/post-song-for-analysis song-str))]
+          (update-server-analysis-results! server-analysis-results))))))
+
+(defn song-analysis-display
+  [{:keys [bar-count
+           distinct-rhyme-count
+           distinct-rhyming-words
+           distinct-word-count
+           rhyme-count
+           rhymes-per-bar
+           rhymes-per-word
+           word-count
+           word-usage-amounts]}]
+  [:div
+   [:h5 (str "Bar count: " bar-count)]
+   [:h5 (str "Word count: " word-count)]
+   [:h5 (str "Distinct word count: " distinct-word-count)]
+   [:h5 (str "Rhyme count: " rhyme-count)]
+   [:h5 (str "Distinct rhyme count: " distinct-rhyme-count)]
+   [:h5 (str "Rhymes per bar: " rhymes-per-bar)]
+   [:h5 (str "Rhymes per word: " rhymes-per-word)]])
 
 (defn app []
   (let [song-str @rap-text-box-contents
-        word-count @server-analysis-word-count
-        distinct-word-count @server-analysis-distinct-word-count]
+        analysis @server-analysis]
     [:div
      [:h1 (str "Lyrics: " (apply str (concat
                                        (take 13 song-str)
@@ -48,8 +65,7 @@
      [:h3 "Click to analyze"]
      [:button [:input {:type     "button" :value "Click me!"
                        :on-click (create-analysis-button-handler song-str)}]]
-     [:h3 (str "word count: " word-count)]
-     [:h3 (str "distinct word count: " distinct-word-count)]]))
+     [song-analysis-display analysis]]))
 
 (rd/render [app]
            (. js/document (getElementById "lyric-frontend")))
