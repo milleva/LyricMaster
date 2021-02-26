@@ -9,10 +9,8 @@
   (go (let [url      (str base-url "/analysis")
             {:keys [status body]} (<! (http/post url
                                     {:json-params {:song song-str}}))
-            parsed-body (js->clj (.parse js/JSON body))]
+            parsed-body (.parse js/JSON body)
+            parsed-clj-body (js->clj parsed-body :keywordize-keys true)]
         (when (< 199 status 300)
-          (println parsed-body)
-          (println (type parsed-body))
-          (println (-> parsed-body (get "word-count")))
-          parsed-body))))
+          parsed-clj-body))))
 
