@@ -2,7 +2,7 @@
 
 A Clojure application designed to help songwriters improve their lyrics through data analysis of successful songs:
 
-##Running locally
+## Running locally
 
 ### Prerequisites
 
