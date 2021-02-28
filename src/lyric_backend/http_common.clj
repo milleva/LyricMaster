@@ -24,11 +24,9 @@
 
 (defn get-cached [word url cache-type client-name]
   (let [cache-key (keyword word)
-        _ (println "lol5")
         cached (fetch-from-cache {:client-name client-name
                                   :type cache-type
                                   :key cache-key})]
-    (println "lol6")
     (if (some? cached)
       cached
       (let [result (get-req url)]

@@ -6,7 +6,6 @@
   false)
 
 (defn any-api-found-rhyme? [w1 w2]
-  (println "lol")
   (or (datamuse/rhyme-detected? w1 w2)
       (rhymebrain/rhyme-detected? w1 w2)))
 

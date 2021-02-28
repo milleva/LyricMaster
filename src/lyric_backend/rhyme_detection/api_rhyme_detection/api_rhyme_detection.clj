@@ -4,7 +4,6 @@
   (let [get-rhymes #(->> %
                          api-get-fn
                          (map :word))
-        _ (println "lol3" w1)
         w1-rhymes (get-rhymes w1)
         w2-rhymes (get-rhymes w2)]
     (boolean

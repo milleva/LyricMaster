@@ -6,10 +6,8 @@
 (def ^:private base-url "https://api.datamuse.com/")
 
 (defn get-rhymes [word]
-  (println "lol4")
   (let [url (str base-url "words?sl=" word)]
     (get-cached word url :rhymes client-name)))
 
 (defn rhyme-detected? [w1 w2]
-  (println "lol2")
   (api-rhyme? w1 w2 get-rhymes))
