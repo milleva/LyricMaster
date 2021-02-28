@@ -45,7 +45,7 @@ Songs are parsed with the following rules:
 :artist String,
 :song {:lyrics String,
        :bars Array<String>,
-       :words Arrray<String>,
+       :words Array<String>,
 `````
 
 
