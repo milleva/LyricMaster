@@ -1,4 +1,4 @@
-(ns lyric-backend.server.server
+(ns lyric-backend.server
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
             [reitit.ring :as ring]
