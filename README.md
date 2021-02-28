@@ -15,7 +15,8 @@ More instructions may follow as app progresses.
 
 ## Usage
 
-Features include dissecting songs Original design is for hip hop lyric analysis. 
+Features include parsing and analyzing songs.\
+Original design is for hip hop lyric analysis. 
 
 ### Parsing text files
 
