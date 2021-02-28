@@ -1,4 +1,4 @@
-# lyric-master
+# Lyric Master
 
 A Clojure application designed to help songwriters improve their lyrics through data analysis of successful songs:
 
