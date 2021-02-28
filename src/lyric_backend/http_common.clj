@@ -1,19 +1,8 @@
-(ns lyric-backend.api.http-common
+(ns lyric-backend.http-common
   (:require [clojure.data.json :as json]
             [clojure.walk :as w]
-            [clj-http.client :as client]))
-
-(def ^:private initial-cache
-  {:rhymebrain {:rhymes {}
-                :infos  {}}
-   :datamuse   {:rhymes {}}})
-(def ^:private cache (atom initial-cache))
-
-(defn- save-to-cache! [{:keys [client-name
-                               type
-                               key]} val]
-  (swap! cache assoc-in (map keyword [client-name type key]) val)
-  val)
+            [clj-http.client :as client]
+            [lyric-backend.cache :refer [fetch-from-cache save-to-cache!]]))
 
 (defn- status-ok? [status]
   (<= 200 status 299))
@@ -35,7 +24,11 @@
 
 (defn get-cached [word url cache-type client-name]
   (let [cache-key (keyword word)
-        cached (-> @cache client-name cache-type cache-key)]
+        _ (println "lol5")
+        cached (fetch-from-cache {:client-name client-name
+                                  :type cache-type
+                                  :key cache-key})]
+    (println "lol6")
     (if (some? cached)
       cached
       (let [result (get-req url)]

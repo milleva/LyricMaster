@@ -1,5 +1,6 @@
-(ns lyric-backend.api.rhymebrain-api
-  (:require [lyric-backend.api.http-common :refer :all]))
+(ns lyric-backend.rhyme-detection.api-rhyme-detection.rhymebrain-api
+  (:require [lyric-backend.http-common :refer :all]
+            [lyric-backend.rhyme-detection.api-rhyme-detection.api-rhyme-detection :refer [api-rhyme?]]))
 
 ;//{:rhymes [{:word {res-object}}...] :infos [{:word {res-object}}]}
 (def cache-key :rhymebrain)
@@ -14,3 +15,6 @@
 (defn get-word-info [word]
   (let [url (str base-url "?function=getWordInfo&word=" word)]
     (get-cached word url :infos cache-key)))
+
+(defn rhyme-detected? [w1 w2]
+  (api-rhyme? w1 w2 get-rhymes))

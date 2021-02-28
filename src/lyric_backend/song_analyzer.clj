@@ -1,5 +1,5 @@
 (ns lyric-backend.song-analyzer
-  (:require [lyric-backend.rhyme-detection :as rhyme]))
+  (:require [lyric-backend.rhyme-detection.combined-rhyme-detection :as rhyme]))
 
 (defn word-used-times [words word]
   (->> words
@@ -17,7 +17,7 @@
         word-count (count words)]
     {:bar-count bar-count
      :word-count word-count
-     :rhyme-count (count rhymes)
+     :rhyme-count rhyme-count
      :distinct-word-count (count distinct-words)
      :distinct-rhyme-count (count distinct-rhymes)
      :distinct-rhyming-words distinct-rhymes

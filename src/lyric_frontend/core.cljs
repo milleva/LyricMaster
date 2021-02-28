@@ -53,7 +53,7 @@
    [:h5 (str "Rhymes per bar: " rhymes-per-bar)]
    [:h5 (str "Rhymes per word: " rhymes-per-word)]
    [:h5 (str "Rhyming words detected: " distinct-rhyming-words)]
-   [:h5 (str "Words frequencies: " word-usage-amounts)]])
+   [:h5 (str "Words frequencies : " word-usage-amounts)]])
 
 (defn app []
   (let [song-str @rap-text-box-contents
