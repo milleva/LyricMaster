@@ -9,7 +9,7 @@
   (or (datamuse/rhyme-detected? w1 w2)
       (rhymebrain/rhyme-detected? w1 w2)))
 
-(defn words-rhyme? [w1 w2]
+(defn- words-rhyme? [w1 w2]
   (and
     (not= w1 w2)
     (or
