@@ -6,7 +6,6 @@ A Clojure application designed to help songwriters improve their lyrics through 
 
 ### Prerequisites
 
-Developed using:
 - Java 12.0.1
 - Leiningen 2.8.1
 
