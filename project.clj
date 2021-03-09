@@ -25,6 +25,7 @@
                                     :target-path]
 
   :source-paths ["src"]
+  :main "lyric-backend.core/start"
 
   :cljsbuild {
               :builds [{:id "lyric-frontend"

@@ -10,8 +10,21 @@ Developed using:
 - Java 12.0.1
 - Leiningen 2.8.1
 
-More instructions may follow as app progresses.
+### Frontend
 
+From project root run 
+```
+lein figwheel
+```
+Open UI with a web browser at 
+http://localhost:3449/index.html
+
+### Backend
+
+From project root run
+```
+lein run
+```
 
 ## Usage
 
@@ -22,7 +35,7 @@ Original design is for hip hop lyric analysis.
 
 Parses songs from strings. The frontend UI provides a text field to paste lyrics for analysis.
 Songs can also be parsed from`.txt` files in `/resources` folder using `lyric-backend.file-io.clj`'s `file->str`
- function (repl users). 
+ function (for repl users). 
 
 Can parse multiple songs from one file / string.
 
@@ -100,9 +113,10 @@ outputs
 
 current metrics (produced by `lyric-backend.song-analyzer.clj`)
 
+The analysis takes one entry from the parser output and produces the following metrics
+
 | Metric                  | Type          | Legend  |
 | -------------           |:-------------:| -----:|
-| :bar-count              | integer       |  |
 | :bar-count              | integer       |    |
 | :word-count             | integer       |     |
 | :rhyme-count            | integer       |       |
