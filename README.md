@@ -30,10 +30,10 @@ lein run
 Features include parsing and analyzing songs.\
 Original design is for hip hop lyric analysis. 
 
-### Parsing text files
+### Parsing songs from text
 
-Parses songs from strings. The frontend UI provides a text field to paste lyrics for analysis.
-Songs can also be parsed from`.txt` files in `/resources` folder using `lyric-backend.file-io.clj`'s `file->str`
+The frontend UI provides a text field to paste lyrics for analysis.
+Songs can alternatively be parsed from`.txt` files in `/resources` folder using `lyric-backend.file-io.clj`'s `file->str`
  function (for repl users). 
 
 Can parse multiple songs from one file / string.
