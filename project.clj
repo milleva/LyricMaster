@@ -14,7 +14,8 @@
                  [jumblerg/ring-cors "2.0.0"]
 
                  [org.clojure/clojurescript "1.10.312"]
-                 [cljs-http "0.1.46"]]
+                 [cljs-http "0.1.46"]
+                 [stylefy "2.2.1"]]
 
   :plugins [[lein-cljsbuild "1.1.4"
              :exclusions [org.clojure/clojure]]

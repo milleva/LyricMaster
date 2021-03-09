@@ -4,7 +4,8 @@
             [reagent.core :as r :refer [atom]]
             [reagent.dom :as rd]
             [lyric-frontend.api :as api]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [stylefy.core :as stylefy :refer [use-style]]))
 
 (enable-console-print!)
 
@@ -34,6 +35,23 @@
         (let [server-analysis-results (<! (api/post-song-for-analysis song-str))]
           (update-server-analysis-results! server-analysis-results))))))
 
+(def metric-style {:padding   "10px 0px 10px 0px"
+                   :font-size         "50px"
+                   :border-bottom "1px solid black"
+                   :padding-bottom "10px"})
+
+(def metric-label-style
+  {:font-weight "Bold"})
+
+(defn metric [label value]
+  [:div
+   (use-style metric-style)
+   [:div
+    (use-style metric-label-style)
+    (str label ":")]
+   [:div
+    (str (or value 100 "unknown"))]])
+
 (defn song-analysis-display
   [{:keys [bar-count
            distinct-rhyme-count
@@ -45,15 +63,15 @@
            word-count
            word-usage-amounts]}]
   [:div
-   [:h5 (str "Bar count: " bar-count)]
-   [:h5 (str "Word count: " word-count)]
-   [:h5 (str "Distinct word count: " distinct-word-count)]
-   [:h5 (str "Rhyme count: " rhyme-count)]
-   [:h5 (str "Distinct rhyme count: " distinct-rhyme-count)]
-   [:h5 (str "Rhymes per bar: " rhymes-per-bar)]
-   [:h5 (str "Rhymes per word: " rhymes-per-word)]
-   [:h5 (str "Rhyming words detected: " distinct-rhyming-words)]
-   [:h5 (str "Words frequencies : " word-usage-amounts)]])
+   (metric "Bar count" bar-count)
+   (metric "Word count" word-count)
+   (metric "Distinct word count" distinct-word-count)
+   (metric "Rhyme count" rhyme-count)
+   (metric "Distinct rhyme count" distinct-rhyme-count)
+   (metric "Rhymes per bar" rhymes-per-bar)
+   (metric "Rhymes per word" rhymes-per-word)
+   (metric "Rhyming words detected" distinct-rhyming-words)
+   (metric "Words frequencies" word-usage-amounts)])
 
 (defn app []
   (let [song-str @rap-text-box-contents
@@ -62,8 +80,8 @@
      [:h1 (str "Lyrics: " (apply str (concat
                                        (take 13 song-str)
                                        [(if (> (count song-str) 0) "..." "")])))]
-     [:h3 "Paste lyrics into this box"]
-     [rap-text-box]
+     [:h3 "Type or paste lyrics into this box"]
+     (rap-text-box)
      [:h3 "Click to analyze"]
      [:button [:input {:type     "button" :value "Click me!"
                        :on-click (create-analysis-button-handler song-str)}]]
