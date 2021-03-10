@@ -9,17 +9,18 @@
   (or (datamuse/rhyme-detected? w1 w2)
       (rhymebrain/rhyme-detected? w1 w2)))
 
-(defn- words-rhyme? [w1 w2]
+(defn- words-rhyme? [w1 w2 is-using-api]
   (and
     (not= w1 w2)
     (or
       (custom-rhyme-detected? w1 w2)
-      (any-api-found-rhyme? w1 w2))))
+      (when is-using-api
+        (any-api-found-rhyme? w1 w2)))))
 
-(defn- has-rhyme-in-coll? [word compared-words]
+(defn- has-rhyme-in-coll? [word compared-words is-using-api]
   (boolean (seq
-             (filter #(words-rhyme? word %) compared-words))))
+             (filter #(words-rhyme? % word is-using-api) compared-words))))
 
-(defn filter-words-that-rhyme [distinct-words]
-  (filter #(has-rhyme-in-coll? % distinct-words)
+(defn filter-words-that-rhyme [distinct-words is-using-api]
+  (filter #(has-rhyme-in-coll? % distinct-words is-using-api)
           distinct-words))

@@ -14,14 +14,15 @@
   {:status 200
    :body "Hello ping"})
 
-(defn analysis-handler [request]
+(defn full-analysis-handler [request]
   (let [req-body (:body request)
         song-str (:song req-body)
+        is-full-analysis (:is-full-analysis req-body)
         parsed-song (-> song-str
                         song-parser/parse-song-dsl-string
                         first
                         :song)
-        analyzed-song (song-analyzer/analyze-song-lyrics parsed-song)]
+        analyzed-song (song-analyzer/analyze-song-lyrics parsed-song is-full-analysis)]
     {:status 201
      :headLers {"Content-Type" "text/plain"}
      :body (json/write-str analyzed-song)}))
@@ -29,7 +30,7 @@
 (def main-handler
   (ring/ring-handler
     (ring/router [["/ping" {:get ping-handler}]
-                  ["/analysis" {:post analysis-handler}]])
+                  ["/analysis" {:post full-analysis-handler}]])
     (ring/create-default-handler)))
 
 (def with-middlewares

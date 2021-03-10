@@ -12,9 +12,21 @@
 (defonce rap-text-box-contents (r/atom ""))
 (defonce server-analysis (r/atom nil))
 
+(defn- update-analysis-results-from-server! [song-analysis-result]
+  (reset! server-analysis song-analysis-result))
+
+(defn- create-quick-analysis-handler []
+  (fn [e]
+    (let [song-str (-> e .-target .-value)]
+      (reset! rap-text-box-contents song-str)
+      (when (seq song-str)
+        (go
+          (let [server-analysis-results (<! (api/post-song-for-analysis song-str false))]
+            (update-analysis-results-from-server! server-analysis-results)))))))
+
 (defn lyric-editor []
   (let []
-    [:textarea {:on-change #(reset! rap-text-box-contents (-> % .-target .-value))
+    [:textarea {:on-change (create-quick-analysis-handler)
                 :style     {:background-color "lightblue"
                             :border-radius    "5px"
                             :width            "80vw"
@@ -22,15 +34,12 @@
                             :font-size        "30px"
                             :font-family "Calibri"}}]))
 
-(defn- update-server-analysis-results! [song-analysis-result]
-  (reset! server-analysis song-analysis-result))
-
 (defn- create-analysis-button-handler [song-str]
   (fn [_]
     (when (seq song-str)
       (go
-        (let [server-analysis-results (<! (api/post-song-for-analysis song-str))]
-          (update-server-analysis-results! server-analysis-results))))))
+        (let [server-analysis-results (<! (api/post-song-for-analysis song-str true))]
+          (update-analysis-results-from-server! server-analysis-results))))))
 
 (defn song-analysis-display
   [{:keys [bar-count

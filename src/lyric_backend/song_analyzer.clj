@@ -6,10 +6,10 @@
        (filter #(= % word))
        count))
 
-(defn analyze-song-lyrics [{:keys [words bars]}]
+(defn analyze-song-lyrics [{:keys [words bars]} is-using-api]
   (let [sorted-words (sort words)
         distinct-words (distinct sorted-words)
-        rhymes (rhyme/filter-words-that-rhyme words)
+        rhymes (rhyme/filter-words-that-rhyme words is-using-api)
         rhyme-count (count rhymes)
         distinct-rhymes (distinct rhymes)
         distinct-rhyme-count (count distinct-rhymes)
