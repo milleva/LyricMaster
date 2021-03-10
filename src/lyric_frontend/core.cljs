@@ -1,29 +1,26 @@
 (ns lyric-frontend.core
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [cljs.core.async :refer [<!]]
-            [reagent.core :as r :refer [atom]]
+            [reagent.core :as r]
             [reagent.dom :as rd]
             [lyric-frontend.api :as api]
-            [clojure.string :as str]
-            [stylefy.core :as stylefy :refer [use-style]]))
-
+            [lyric-frontend.components.metric :refer [metric]]
+            [stylefy.core :refer [use-style]]))
 (enable-console-print!)
+(println "reloading frontend")
 
-(println "This text is printed from src/lyrics-frontend/core.cljs. Go ahead and edit it and see reloading in action.")
+(defonce rap-text-box-contents (r/atom ""))
+(defonce server-analysis (r/atom nil))
 
-;; define your app data so that it doesn't get over-written on reload
-
-(defonce rap-text-box-contents (atom ""))
-
-(defonce server-analysis (atom nil))
-
-(defn rap-text-box []
+(defn lyric-editor []
   (let []
     [:textarea {:on-change #(reset! rap-text-box-contents (-> % .-target .-value))
-                :style {:background-color "grey"
-                        :corner-radius "5px"
-                        :width "80vw"
-                        :height "30em"}}]))
+                :style     {:background-color "lightblue"
+                            :border-radius    "5px"
+                            :width            "80vw"
+                            :height           "30em"
+                            :font-size        "30px"
+                            :font-family "Calibri"}}]))
 
 (defn- update-server-analysis-results! [song-analysis-result]
   (reset! server-analysis song-analysis-result))
@@ -34,23 +31,6 @@
       (go
         (let [server-analysis-results (<! (api/post-song-for-analysis song-str))]
           (update-server-analysis-results! server-analysis-results))))))
-
-(def metric-style {:padding   "10px 0px 10px 0px"
-                   :font-size         "50px"
-                   :border-bottom "1px solid black"
-                   :padding-bottom "10px"})
-
-(def metric-label-style
-  {:font-weight "Bold"})
-
-(defn metric [label value]
-  [:div
-   (use-style metric-style)
-   [:div
-    (use-style metric-label-style)
-    (str label ":")]
-   [:div
-    (str (or value 100 "unknown"))]])
 
 (defn song-analysis-display
   [{:keys [bar-count
@@ -63,6 +43,9 @@
            word-count
            word-usage-amounts]}]
   [:div
+   {:style {:overflow-y "scroll"
+            :margin-top "20px"
+            :margin-left "15px"}}
    (metric "Bar count" bar-count)
    (metric "Word count" word-count)
    (metric "Distinct word count" distinct-word-count)
@@ -73,19 +56,31 @@
    (metric "Rhyming words detected" distinct-rhyming-words)
    (metric "Words frequencies" word-usage-amounts)])
 
+(defn analysis-button [song-str]
+  [:button [:input {:type     "button"
+                    :value    "Analyze"
+                    :on-click (create-analysis-button-handler song-str)
+                    :style    {:font-weight   "bold"
+                               :font-size     "20px"
+                               :border        "3px solid"
+                               :border-radius "5px"
+                               :padding       "15px"
+                               :background-color "white"
+                               :margin "5px 0px 5px 0px"}}]])
+
 (defn app []
   (let [song-str @rap-text-box-contents
         analysis @server-analysis]
     [:div
-     [:h1 (str "Lyrics: " (apply str (concat
-                                       (take 13 song-str)
-                                       [(if (> (count song-str) 0) "..." "")])))]
-     [:h3 "Type or paste lyrics into this box"]
-     (rap-text-box)
-     [:h3 "Click to analyze"]
-     [:button [:input {:type     "button" :value "Click me!"
-                       :on-click (create-analysis-button-handler song-str)}]]
-     [song-analysis-display analysis]]))
+     {:style {:display "flex"
+              :flex-direction "row"}}
+     [:div
+      [:h1 "Type or paste lyrics into this box"]
+      (lyric-editor)
+      [:div
+       (analysis-button song-str)]]
+     [:div
+      [song-analysis-display analysis]]]))
 
 (rd/render [app]
            (. js/document (getElementById "lyric-frontend")))

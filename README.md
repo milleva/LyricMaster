@@ -27,8 +27,7 @@ lein run
 
 ## Usage
 
-Features include parsing and analyzing songs.\
-Original design is for hip hop lyric analysis. 
+Features include parsing and analyzing songs. Original design is for hip hop lyric analysis. 
 
 ### Parsing songs from text
 
