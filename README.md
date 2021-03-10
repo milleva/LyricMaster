@@ -50,7 +50,7 @@ Songs are parsed with the following rules:
 - Each new line starts a new bar. 
     - A bar means roughly "one line in a poem (or song)"
     
-##### Output
+##### Output model
 `````
 :title String,
 :artist String,
