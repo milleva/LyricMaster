@@ -14,7 +14,7 @@
   {:status 200
    :body "Hello ping"})
 
-(defn full-analysis-handler [request]
+(defn analysis-handler [request]
   (let [req-body (:body request)
         song-str (:song req-body)
         is-full-analysis (:is-full-analysis req-body)
@@ -30,7 +30,7 @@
 (def main-handler
   (ring/ring-handler
     (ring/router [["/ping" {:get ping-handler}]
-                  ["/analysis" {:post full-analysis-handler}]])
+                  ["/analysis" {:post analysis-handler}]])
     (ring/create-default-handler)))
 
 (def with-middlewares
