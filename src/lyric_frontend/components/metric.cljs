@@ -2,19 +2,25 @@
   (:require [stylefy.core :refer [use-style]]))
 
 
-(def metric-style {:padding   "10px 0px 10px 0px"
-                   :font-size         "50px"
-                   :border-bottom "1px solid black"
-                   :padding-bottom "10px"})
+(def metric-style {:margin           "10px 0px 30px 0px"
+                   :padding          "5px"
+                   :font-size        "30px"
+                   :font-family      "Comic Sans MS"
+                   :background-color "lightblue"})
 
 (def metric-label-style
-  {:font-weight "Bold"})
+  {})
+
+(def metric-value-style
+  {:color "blue"})
 
 (defn metric [label value]
   [:div
    (use-style metric-style)
-   [:div
+   [:span
     (use-style metric-label-style)
-    (str label ":")]
-   [:div
-    (str (or value 100 "unknown"))]])
+    (str label)]
+   ": "
+   [:span
+    (use-style metric-value-style)
+    (str (or value ""))]])

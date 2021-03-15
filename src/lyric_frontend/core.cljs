@@ -41,7 +41,7 @@
         (let [server-analysis-results (<! (api/post-song-for-analysis song-str true))]
           (update-analysis-results-from-server! server-analysis-results))))))
 
-(defn song-analysis-display
+(defn analysis-sidebar
   [{:keys [bar-count
            distinct-rhyme-count
            distinct-rhyming-words
@@ -61,9 +61,7 @@
    (metric "Rhyme count" rhyme-count)
    (metric "Distinct rhyme count" distinct-rhyme-count)
    (metric "Rhymes per bar" rhymes-per-bar)
-   (metric "Rhymes per word" rhymes-per-word)
-   (metric "Rhyming words detected" distinct-rhyming-words)
-   (metric "Words frequencies" word-usage-amounts)])
+   (metric "Rhymes per word" rhymes-per-word)])
 
 (defn analysis-button [song-str]
   [:button [:input {:type     "button"
@@ -89,7 +87,7 @@
       [:div
        (analysis-button song-str)]]
      [:div
-      [song-analysis-display analysis]]]))
+      [analysis-sidebar analysis]]]))
 
 (rd/render [app]
            (. js/document (getElementById "lyric-frontend")))
