@@ -3,8 +3,8 @@
 
 
 (def metric-style {:margin           "10px 0px 30px 0px"
-                   :padding          "5px"
-                   :font-size        "30px"
+                   :padding          "10px"
+                   :font-size        "28px"
                    :font-family      "Comic Sans MS"
                    :background-color "lightblue"})
 
@@ -23,4 +23,4 @@
    ": "
    [:span
     (use-style metric-value-style)
-    (str (or value ""))]])
+    (str (or value "-"))]])
