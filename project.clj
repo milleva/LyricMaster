@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.9.0"]
+  :dependencies [[org.clojure/clojure "1.10.3"]
                  [org.clojure/data.json "1.0.0"]
                  [clj-http "3.12.0"]
                  [metosin/reitit "0.5.12"]
@@ -28,18 +28,15 @@
   :source-paths ["src"]
   :main "lyric-backend.core/start"
 
-  :cljsbuild {
-              :builds [{:id "lyric-frontend"
-                        :source-paths ["src"]
+  :cljsbuild {:builds [{:id "lyric-frontend"
+                        :source-paths ["src/"]
                         :figwheel true
-                        :compiler {
-                                   :main lyric-frontend.core
+                        :compiler {:main "lyric-frontend.core"
                                    :asset-path "js/out"
                                    :output-to "resources/public/js/lyric_frontend.js"
                                    :output-dir "resources/public/js/out"
                                    :source-map-timestamp true}}]}
 
-  :figwheel { :css-dirs ["resources/public/css"]
-             :open-file-command "emacsclient"
-             })
+  :figwheel {:css-dirs ["resources/public/css"]
+             :open-file-command "emacsclient"})
 
